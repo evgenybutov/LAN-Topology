@@ -1,0 +1,120 @@
+
+!
+! Last configuration change at 14:51:00 MSK Sun Aug 4 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router_
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$Q3wN$e8T/89rFuumGgvVRwWR6z0
+!
+no aaa new-model
+clock timezone MSK 3 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+ip domain name network.local
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+username admin password 0 cisco
+!
+redundancy
+!
+!
+ip ssh version 2
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ no shutdown
+ ip address 11.11.11.1 255.255.255.252
+!
+interface Ethernet0/1
+ no shutdown
+ ip address 192.168.200.2 255.255.255.0
+!
+interface Ethernet0/2
+ no shutdown
+ ip address 192.168.250.2 255.255.255.0
+!
+interface Ethernet0/3
+ no shutdown
+ no ip address
+ shutdown
+!
+router ospf 1
+ network 11.11.11.0 0.0.0.3 area 0
+ network 192.168.200.0 0.0.0.255 area 0
+ network 192.168.250.0 0.0.0.255 area 0
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+snmp-server community public RO
+snmp-server community private RW
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login local
+ transport input ssh
+!
+!
+end

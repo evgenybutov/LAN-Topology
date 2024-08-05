@@ -1,0 +1,150 @@
+
+!
+! Last configuration change at 14:45:48 MSK Sun Aug 4 2024
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname SW_1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$LKNA$3m/X8.8hOqp6KeDkVbreF/
+!
+username admin password 0 cisco
+no aaa new-model
+clock timezone MSK 3 0
+!
+!
+!
+!
+!
+!
+!
+!
+ip domain-name network.local
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel10
+ no shutdown
+ no switchport
+ ip address 192.168.100.1 255.255.255.0
+!
+interface Ethernet0/0
+ no shutdown
+ no switchport
+ ip address 192.168.200.1 255.255.255.0
+!
+interface Ethernet0/1
+ no shutdown
+!
+interface Ethernet0/2
+ no shutdown
+ no switchport
+ no ip address
+ channel-group 10 mode on
+!
+interface Ethernet0/3
+ no shutdown
+ no switchport
+ no ip address
+ channel-group 10 mode on
+!
+interface Ethernet1/0
+ no shutdown
+ no switchport
+ no ip address
+ channel-group 10 mode on
+!
+interface Ethernet1/1
+ no shutdown
+ no switchport
+ no ip address
+ channel-group 10 mode on
+!
+interface Ethernet1/2
+ no shutdown
+!
+interface Ethernet1/3
+ no shutdown
+!
+interface Ethernet2/0
+ no shutdown
+!
+interface Ethernet2/1
+ no shutdown
+!
+interface Ethernet2/2
+ no shutdown
+!
+interface Ethernet2/3
+ no shutdown
+!
+interface Vlan10
+ no shutdown
+ ip address 192.168.10.254 255.255.255.0
+ standby 10 ip 192.168.10.1
+!
+interface Vlan20
+ no shutdown
+ ip address 192.168.20.254 255.255.255.0
+ standby 10 ip 192.168.20.1
+!
+router ospf 1
+ network 192.168.10.0 0.0.0.255 area 0
+ network 192.168.20.0 0.0.0.255 area 0
+ network 192.168.200.0 0.0.0.255 area 0
+!
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip ssh version 2
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+snmp-server community public RO
+snmp-server community private RW
+!
+control-plane
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login local
+ transport input ssh
+!
+!
+!
+end

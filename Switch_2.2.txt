@@ -1,0 +1,85 @@
+
+!
+version 15.1
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname Switch_2.2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone MSK 3 0
+no ip routing
+!
+no ip cef
+!
+!
+no ipv6 cef
+ipv6 multicast rpf use-bgp
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ no shutdown
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ duplex auto
+!
+interface Ethernet0/1
+ no shutdown
+ switchport access vlan 200
+ switchport mode access
+ duplex auto
+!
+interface Ethernet0/2
+ no shutdown
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ duplex auto
+!
+interface Ethernet0/3
+ no shutdown
+ duplex auto
+!
+interface Vlan200
+ no shutdown
+ ip address 172.16.20.90 255.255.255.0
+ no ip route-cache
+!
+ip default-gateway 172.16.20.1
+!
+!
+no ip http server
+!
+!
+!
+snmp-server community public RO
+snmp-server community private RW
+!
+control-plane
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+!
+end
